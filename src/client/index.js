@@ -10,44 +10,35 @@ const preloadedState = window.__INITIAL_STATE__
 delete window.__INITIAL_STATE__
 const store = configureStore(preloadedState)
 
-// loadComponents().then(() => {
-//   hydrate(
-//     <Provider store={store}>
-//       <BrowserRouter>
-//         <App />
-//       </BrowserRouter>
-//     </Provider>,
-//     document.getElementById('app')
-//   )
-// })
-
-window.main = () => {
-  Loadable.preloadReady().then(() => {
-    hydrate(
+if (module.hot) {
+  const renderApp = (Comp) => {
+    return hydrate(
       <Provider store={store}>
         <BrowserRouter>
-          <App />
+          <Comp />
         </BrowserRouter>
       </Provider>,
       document.getElementById('app')
     )
-  })
-}
-
-/*const renderApp = (Comp) => {
-  return hydrate(
-    <Provider store={store}>
-      <BrowserRouter>
-        <Comp />
-      </BrowserRouter>
-    </Provider>,
-    document.getElementById('app')
-  )
-}*/
-
-/*if (module.hot) {
+  }
+  
+  renderApp(App)
+  
   module.hot.accept('./App', () => {
     const NewApp = require('./App').default
     renderApp(NewApp)
   })
-}*/
+} else {
+  window.main = () => {
+    Loadable.preloadReady().then(() => {
+      hydrate(
+        <Provider store={store}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </Provider>,
+        document.getElementById('app')
+      )
+    })
+  }
+}

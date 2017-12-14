@@ -1,6 +1,6 @@
 import express from 'express'
 import React from 'react'
-import { renderToString, renderToStaticMarkup } from 'react-dom/server'
+import { renderToString } from 'react-dom/server'
 import { StaticRouter, matchPath } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
@@ -16,7 +16,6 @@ import App from '../client/App'
 
 const router = express.Router()
 const store = configureStore()
-
 
 
 router.get('*', (req, res) => {
@@ -44,10 +43,6 @@ router.get('*', (req, res) => {
     )
 
     let bundles = getBundles(stats, modules)
-
-    // console.log('---- Modules ----')
-    // console.log(bundles)
-
     if (context.status === 404) {
       return res.status(404)
     }

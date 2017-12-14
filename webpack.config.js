@@ -1,4 +1,3 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const webpack = require('webpack')
 const path = require('path')
@@ -19,9 +18,6 @@ const plugins = () => {
       filename: '[name].css',
       disable: false,
       allChunks: true,
-    }),
-    new ReactLoadablePlugin({
-      filename: './dist/js/react-loadable.json',
     }),
   ]
 
@@ -45,19 +41,25 @@ const plugins = () => {
     array.push(new webpack.DefinePlugin({
       'process.env': { NODE_ENV: JSON.stringify(nodeEnv) }
     }))
+    array.push(new ReactLoadablePlugin({
+      filename: './dist/js/react-loadable.json',
+    }))
   } else {
-    array.push(new HtmlWebpackPlugin({ template: './src/client/index.html', decodeEntities: true, removeComments: true }))
+    array.push(new ReactLoadablePlugin({
+      filename: './dist/js/react-loadable.json',
+    }))
+    array.push(new webpack.HotModuleReplacementPlugin())
   }
 
   return array
 }
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'source-map', // eval
   entry: {
-    'client': [
+    'client': isProd? ['babel-polyfill', './src/client/index'] : [
       'babel-polyfill',
-      // 'react-hot-loader/patch',
+      'webpack-hot-middleware/client?name=client',
       './src/client/index'
     ],
     'vendor': ['react', 'react-dom', 'react-router-dom', 'react-instantsearch', 'react-redux', 'react-router', 'react-router-config', 'redux', 'redux-thunk']
@@ -82,7 +84,7 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           'style-loader',
-          'css-loader?modules&localIdentName=[name]---[local]---[hash:base64:5]'
+          'css-loader?modules&localIdentName=[name]__[local]___[hash:base64:5]'
         ]
       },
       {

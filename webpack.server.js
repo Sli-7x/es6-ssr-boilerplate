@@ -7,7 +7,7 @@ const isProd = nodeEnv == 'production'
 
 module.exports = {
   entry: {
-    server: ['babel-polyfill',  path.resolve(__dirname, 'src/server/server.js')]
+    server: ['babel-polyfill', path.resolve(__dirname, 'src/server/server.js')]
   },
 
   output: {
@@ -30,13 +30,12 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        loader: 'babel-loader'
       },
-
       {
         test: /\.(css|sass|scss)$/,
         exclude: /node_modules/,
-        loader: 'css-loader/locals?module&localIdentName=[name]---[local]---[hash:base64:5]',
+        loader: 'css-loader/locals?module&localIdentName=[name]__[local]___[hash:base64:5]',
       }
     ]
   },
