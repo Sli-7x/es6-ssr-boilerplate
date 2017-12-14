@@ -53,7 +53,9 @@ class App extends Component {
       <div>
         <Header />
         <main className="content">
-          {routes.map((route, i) => <Route key={i} {...route} />)}
+          <Switch>
+            {routes.map((route, i) => <Route key={i} {...route} />)}
+          </Switch>
         </main>
         <Footer />
       </div>

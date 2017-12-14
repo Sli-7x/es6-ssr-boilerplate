@@ -4,20 +4,15 @@ require('babel-core/register')({
   presets: ['latest', 'react']
 })
 const PORT = process.env.PORT || 3000
-const isDev = process.env.NODE_ENV === 'dev'
+const isDev = process.env.NODE_ENV === 'serverDev'
 
-//@todo make work with development
+// @todo make work with development
 if (isDev) {
   require('babel-core').transform('code', {
-    plugins: ['dynamic-import-node']
+    plugins: [
+      'css-modules-transform'
+    ]
   })
-
-  require.extensions['.scss'] = () => {
-    return
-  }
-  require.extensions['.css'] = () => {
-    return
-  }
 }
 
 import express from 'express'
@@ -29,27 +24,33 @@ import compression from 'compression'
 
 const app = express()
 
-/*
-//@todo make work with development
-import webpack from 'webpack' // Webpack
-import webpackMiddleware from 'webpack-dev-middleware'
-const compiler = webpack(require('../../webpack.server.js'))
-app.use(webpackMiddleware(compiler, { serverSideRender: true }))
-*/
-
 app.use(compression())
 app.use(helmet())
 app.use(cookieParser())
 
-const basePath = isDev? path.join(__dirname, '..', '..', 'dist') : path.join(__dirname, 'dist')
+const basePath = isDev ? path.join(__dirname, '..', '..', 'dist') : path.join(__dirname, 'dist')
 app.use(express.static(basePath))
 
-app.use('/', require('./routes').default)
+
 process.on('uncaughtException', (err) => {
   console.log(err)
 })
 
 
-Loadable.preloadAll().then(() => {
+//@todo make work with development
+if (isDev) {
+  const webpack = require('webpack')
+  const webpackMiddleware = require('webpack-dev-middleware')
+  const webpackHotMiddleware = require('webpack-hot-middleware')
+  const compiler = webpack(require('../../webpack.config.js'))
+  app.use(webpackMiddleware(compiler, { serverSideRender: true }))
+  app.use(webpackHotMiddleware(compiler))
+  app.use('/', require('./handlerDev').default)
   app.listen(PORT, () => console.log('started prot: ' + PORT))
-})
+} else {
+  app.use('/', require('./handlerProd').default)
+  Loadable.preloadAll().then(() => {
+    app.listen(PORT, () => console.log('started prot: ' + PORT))
+  })
+}
+
