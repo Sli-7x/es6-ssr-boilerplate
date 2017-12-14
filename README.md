@@ -5,7 +5,6 @@
 
 ##### development
 * `npm run dev` Start development
-* `npm run server` Start development only server
 
 ##### production
 * `npm run build:all` Build for production
