@@ -1,0 +1,119 @@
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.content {
+    display: flex;
+    padding-top: 20px;
+}
+.menu {
+    width: 100%;
+    max-width: 200px;
+}
+.footer {
+    text-align: center;
+}
+.results {
+    flex: 10;
+}
+.hitContent {
+    padding: 0px 10px;
+}
+.hitType {
+    color: #888888;
+    font-size: 13px;
+}
+.filters {
+    width: 200px;
+}
+
+/* NEW */
+.gridContent {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 0 10px;
+    justify-content: center;
+}
+.itemContent {
+    width: calc(25% - 20px);
+    min-height: 250px;
+    padding: 0 10px;
+}
+.item {
+    width: 100%;
+    height: 300px;
+    border: 1px solid #e8e8e8;
+    margin: 0 auto 20px auto;
+    max-width: 350px;
+    min-width: 200px;
+    overflow: hidden;
+}
+.itemPicture {
+    text-align: center;
+    height: 200px;
+    vertical-align: middle;
+    padding-bottom: 10px;
+    display: table;
+    width: 100%;
+}
+.itemPictureWrapper {
+    display: table-cell;
+    vertical-align: middle;
+}
+.itemPicture img {
+    max-width: 300px;
+    vertical-align: middle;
+    height: auto;
+    max-height: 200px;
+}
+.itemTitleContent {
+    display: flex;
+    width: 100%;
+}
+.itemTitle {
+    flex: 2
+}
+.itemPrice {
+    text-align: right;
+    flex: 1;
+}
+.itemDescription {
+    padding: 5px 0;
+    font-size: 13px;
+    color: #555;
+    line-height: 16px;
+}
+
+/* @Media */
+@media screen and (min-width: 1600px) {
+    #grid .gridContent .itemContent {
+        width: calc(25% - 20px);
+    }
+}
+@media screen and (max-width: 1199px) {
+    .filters {
+        display: none;
+    }
+}
+@media screen and (max-width: 991px) {
+    .menu {
+        display: none;
+    }
+}
+@media screen and (min-width: 768px) and (max-width: 1599px) {
+    .itemContent {
+        width: calc(33% - 20px);
+    }
+}
+@media screen and (max-width: 767px) {
+    .itemContent {
+        width: calc(50% - 20px);
+    }
+}
+@media screen and (max-width: 480px) {
+    .itemContent {
+        width: 100%;
+    }
+}

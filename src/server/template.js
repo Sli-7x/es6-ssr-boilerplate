@@ -8,6 +8,7 @@ export default ({ content, data, bundles = [] }) => {
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="msapplication-config" content="none">
+      <meta name="description" content="moebel stuff, tables, kitchen, chairs">
       <title>Algolia SSR</title>
       <link rel="stylesheet" href="https://unpkg.com/react-instantsearch-theme-algolia@3.0.0/style.min.css" />
       <style type="text/css">

@@ -7,7 +7,7 @@ const routes = [
     component: Route.List
   },
   {
-    path: '/product',
+    path: '/product/:category?',
     component: Route.ProductPage
   },
   {

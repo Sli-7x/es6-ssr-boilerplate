@@ -4,18 +4,21 @@ import { createInstantSearch } from 'react-instantsearch/server'
 import {
   RefinementList,
   SearchBox,
-  Hits,
   Configure,
   Pagination,
   Menu,
   CurrentRefinements,
   ScrollTo
 } from 'react-instantsearch/dom'
+import { connectHits } from 'react-instantsearch/connectors'
 import { HitComponent } from './HitComponent'
 import styles from './productsStyles.css'
 
 const { InstantSearch, findResultsState } = createInstantSearch()
 
+
+const MyHits = ({ hits }) => hits ? hits.map((hit, i) => <HitComponent hit={hit} key={i} />) : ''
+const Items = connectHits(MyHits)
 
 
 const createURL = (state) => {
@@ -27,6 +30,10 @@ const createURL = (state) => {
 }
 
 const urlToSearchState = (location, props) => {
+  if (!location) {
+    return
+  }
+
   const obj = qs.parse(location.search.slice(1))
 
   if (props.match.params.category) {
@@ -41,7 +48,7 @@ class Products extends Component {
     super(props)
     this.onSearchStateChange = this.onSearchStateChange.bind(this)
     this.state = {
-      searchState: process.browser ? urlToSearchState(props.location, props) : {}
+      searchState: props.location ? urlToSearchState(props.location, props) : props.searchState
     }
   }
 
@@ -83,7 +90,7 @@ class Products extends Component {
 
   render() {
     const search = this.props && this.props.searchState ? this.props.searchState : this.state.searchState
-    // console.log(this.props)
+
     return (
       <InstantSearch
         appId="latency"
@@ -94,10 +101,10 @@ class Products extends Component {
         searchState={search}
         createURL={createURL}
       >
-        
-        <Configure hitsPerPage={10} />
+        <Configure hitsPerPage={12} />
         <div className={styles.header}>
           <h1>React InstantSearch + Redux + SSR + Code split</h1>
+
           <SearchBox />
           <CurrentRefinements />
         </div>
@@ -105,15 +112,18 @@ class Products extends Component {
           <div className={styles.menu}>
             <Menu attributeName="category" />
           </div>
-          <div className={styles.results}>
-            <ScrollTo>
-              <Hits hitComponent={HitComponent} />
-            </ScrollTo>
+          <div className={styles.gridContent}>
+            <Items />
           </div>
-          <RefinementList attributeName="colors" />
+          <div className={styles.filters}>
+            <RefinementList attributeName="colors" />
+            <div style={{ paddingTop: '30px' }}>
+              <RefinementList attributeName="materials" />
+            </div>
+          </div>
         </div>
         <div className={styles.footer}>
-          <Pagination />
+          <Pagination showLast={false} showFirst={false} />
         </div>
       </InstantSearch>
     )

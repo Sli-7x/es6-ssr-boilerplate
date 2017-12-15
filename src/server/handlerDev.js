@@ -16,12 +16,16 @@ const store = configureStore()
 
 router.get('*', (req, res) => {
   const url = req.url.split(/[?#]/)[0]
+  const context = {}
+  let params = null
 
-  const context = {}  
+  if (req.params) {
+    params = req.params[0].slice(1).split('/')
+  }
 
   const promises = routes.reduce((acc, route) => {
     if (matchPath(url, route) && route.component && route.component.fetchData) {
-      acc.push(Promise.resolve(store.dispatch(route.component.fetchData(req, res))))
+      acc.push(Promise.resolve(store.dispatch(route.component.fetchData(req, params))))
     }
     return acc
   }, [])
