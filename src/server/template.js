@@ -10,11 +10,7 @@ export default ({ content, data, bundles = [] }) => {
       <meta name="msapplication-config" content="none">
       <meta name="description" content="moebel stuff, tables, kitchen, chairs">
       <title>Algolia SSR</title>
-      <link rel="stylesheet" href="https://unpkg.com/react-instantsearch-theme-algolia@3.0.0/style.min.css" />
-      <style type="text/css">
-      .ais-InstantSearch__root {
-        align-items: center;
-      }
+      
       </style>
     </head>
     <body>

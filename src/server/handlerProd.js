@@ -13,12 +13,13 @@ import configureStore from '../client/configureStore'
 import routes from '../client/routes'
 import template from './template'
 import App from '../client/App'
+import { ssrCache, cacheMiddleware, getCacheKey } from './cacheMiddleware'
 
 const router = express.Router()
 const store = configureStore()
 
 
-router.get('*', (req, res) => {
+router.get('*', cacheMiddleware, (req, res) => {
   const url = req.url.split(/[?#]/)[0]
   let modules = []
   const context = {}  
@@ -55,7 +56,10 @@ router.get('*', (req, res) => {
       return res.redirect(302, context.url)
     }
 
-    res.send(template({ data: store.getState(), content: appHtml, bundles }))
+    const html = template({ data: store.getState(), content: appHtml, bundles })
+    ssrCache.set(getCacheKey(req), html)
+
+    res.send(html)
   })
 })
 

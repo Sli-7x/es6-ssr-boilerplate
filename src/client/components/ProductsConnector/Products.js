@@ -2,31 +2,24 @@ import React, { Component } from 'react'
 import qs from 'qs'
 import { createInstantSearch } from 'react-instantsearch/server'
 import {
-  RefinementList,
+  // RefinementList,
   SearchBox,
   Configure,
-  Pagination,
-  Menu,
-  CurrentRefinements,
-  ScrollTo
+  CurrentRefinements
 } from 'react-instantsearch/dom'
-import { connectHits } from 'react-instantsearch/connectors'
-import { HitComponent } from './HitComponent'
 import styles from './productsStyles.css'
+import { urlDecode, urlEncode } from '../../urlHelper'
+import { Pagination, Menu, Items, RefinementList } from './Connectors'
 
 const { InstantSearch, findResultsState } = createInstantSearch()
 
 
-const MyHits = ({ hits }) => hits ? hits.map((hit, i) => <HitComponent hit={hit} key={i} />) : ''
-const Items = connectHits(MyHits)
-
-
 const createURL = (state) => {
-  const cat = state.menu && state.menu.category ? `/${state.menu.category}` : ''
+  const cat = state.menu && state.menu.category ? `${state.menu.category}` : ''
   const obj = { ...state }
   delete obj.menu
 
-  return `/product${cat}?${qs.stringify(obj)}`
+  return `/product/${urlEncode(cat)}?${qs.stringify(obj)}`
 }
 
 const urlToSearchState = (location, props) => {
@@ -37,7 +30,7 @@ const urlToSearchState = (location, props) => {
   const obj = qs.parse(location.search.slice(1))
 
   if (props.match.params.category) {
-    obj.menu = { category: props.match.params.category }
+    obj.menu = { category: urlDecode(props.match.params.category) }
   }
 
   return obj
@@ -70,17 +63,15 @@ class Products extends Component {
     this.lazyLoad()
   }
 
-
-  componentWillReceiveProps(props) {
-    this.lazyLoad()
-    if (props.location !== this.props.location) {
-      this.setState({ searchState: urlToSearchState(props.location, props) })
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location !== this.props.location) {
+      this.setState({ searchState: urlToSearchState(nextProps.location, nextProps) }, this.lazyLoad)
     }
   }
 
   onSearchStateChange(searchState) {
     this.props.history.push(createURL(searchState))
-
+    // console.log(searchState)
     if (this.props.match.params.category) {
       searchState.menu = { category: this.props.match.params.category }
     }
@@ -90,7 +81,7 @@ class Products extends Component {
 
   render() {
     const search = this.props && this.props.searchState ? this.props.searchState : this.state.searchState
-
+    console.log(search)
     return (
       <InstantSearch
         appId="latency"
@@ -98,19 +89,22 @@ class Products extends Component {
         indexName="ikea"
         resultsState={this.props.resultsState}
         onSearchStateChange={this.onSearchStateChange}
+        refresh={false}
         searchState={search}
-        createURL={createURL}
+        // createURL={createURL}
       >
         <Configure hitsPerPage={12} />
         <div className={styles.header}>
-          <h1>React InstantSearch + Redux + SSR + Code split</h1>
-
+          <h1>ES6 + React InstantSearch + Redux + SSR + Code split</h1>
           <SearchBox />
-          <CurrentRefinements />
         </div>
         <div className={styles.content}>
           <div className={styles.menu}>
-            <Menu attributeName="category" />
+            <Menu 
+              limitMin={20}
+              attributeName="category"
+              query={this.props.location ? this.props.location.search : ''}
+            />
           </div>
           <div className={styles.gridContent}>
             <Items />
@@ -123,7 +117,11 @@ class Products extends Component {
           </div>
         </div>
         <div className={styles.footer}>
-          <Pagination showLast={false} showFirst={false} />
+          <Pagination
+            showLast={false} 
+            showFirst={false}
+            query={this.props.location ? this.props.location.search : ''}
+          />
         </div>
       </InstantSearch>
     )

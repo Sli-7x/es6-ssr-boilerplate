@@ -3,7 +3,7 @@ import { Products, findResultsState } from '../components/ProductsConnector/Prod
 
 export const fetchProducts = (searchState = {}) => async (dispatch) => {
   const resultState = await findResultsState(Products, { searchState })
-  
+
   return dispatch({
     type: PRODUCTS_LOADED,
     payload: resultState

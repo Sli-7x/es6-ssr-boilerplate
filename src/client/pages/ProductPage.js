@@ -12,7 +12,6 @@ class ProductPage extends Component {
 
     return fetchProducts(req.query)
   }
-  
 
   render() {
     const { products } = this.props

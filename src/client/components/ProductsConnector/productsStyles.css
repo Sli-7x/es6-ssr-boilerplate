@@ -12,6 +12,7 @@
     max-width: 200px;
 }
 .footer {
+    margin: 20px 0;
     text-align: center;
 }
 .results {
@@ -27,7 +28,26 @@
 .filters {
     width: 200px;
 }
-
+.category a {
+    text-decoration: none;
+    color: #1a8ec6;
+}
+.categoryActive a {
+    color: orange;
+}
+.page {
+    display: inline-block;
+    padding: 5px 0px;
+    background: #3fa2d1;
+    margin: 0 5px 5px 5px;
+    text-decoration: none;
+    color: #fff;
+    min-width: 30px;
+}
+.pageActive {
+    color: rgb(255, 102, 0);
+    background: none;
+}
 /* NEW */
 .gridContent {
     display: flex;
@@ -88,7 +108,7 @@
 
 /* @Media */
 @media screen and (min-width: 1600px) {
-    #grid .gridContent .itemContent {
+    .itemContent {
         width: calc(25% - 20px);
     }
 }
