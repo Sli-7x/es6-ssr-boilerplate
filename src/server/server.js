@@ -1,5 +1,6 @@
 // import { createServer } from 'http'
 // import 'ignore-styles'
+require('dotenv').config()
 require('babel-core/register')({
   presets: ['latest', 'react']
 })
@@ -21,7 +22,6 @@ import path from 'path'
 import helmet from 'helmet'
 import Loadable from 'react-loadable'
 import compression from 'compression'
-require('dotenv').config()
 
 const app = express()
 

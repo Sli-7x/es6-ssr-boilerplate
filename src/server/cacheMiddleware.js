@@ -11,6 +11,7 @@ export const getCacheKey = (req) => {
   return `${req.url}`
 }
 
+
 router.use((req, res, next) => {
   if (process.env.SSR_CACHE === 'true') {
     const key = getCacheKey(req)
