@@ -71,7 +71,7 @@ class Products extends Component {
 
   onSearchStateChange(searchState) {
     this.props.history.push(createURL(searchState))
-    // console.log(searchState)
+    this.lazyLoad()
     if (this.props.match.params.category) {
       searchState.menu = { category: this.props.match.params.category }
     }
@@ -81,7 +81,7 @@ class Products extends Component {
 
   render() {
     const search = this.props && this.props.searchState ? this.props.searchState : this.state.searchState
-    console.log(search)
+
     return (
       <InstantSearch
         appId="latency"
@@ -91,12 +91,13 @@ class Products extends Component {
         onSearchStateChange={this.onSearchStateChange}
         refresh={false}
         searchState={search}
-        // createURL={createURL}
+        createURL={createURL}
       >
         <Configure hitsPerPage={12} />
         <div className={styles.header}>
           <h1>ES6 + React InstantSearch + Redux + SSR + Code split</h1>
           <SearchBox />
+          <CurrentRefinements />
         </div>
         <div className={styles.content}>
           <div className={styles.menu}>
@@ -121,6 +122,7 @@ class Products extends Component {
             showLast={false} 
             showFirst={false}
             query={this.props.location ? this.props.location.search : ''}
+            perPage={12}
           />
         </div>
       </InstantSearch>

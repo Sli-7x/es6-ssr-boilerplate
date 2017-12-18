@@ -7,9 +7,10 @@ import { urlEncode, removeQueryParams } from '../../urlHelper'
 import styles from './productsStyles.css'
 
 // Pagination
-const MyPagination = (props) => {
+const MyPagination = (props) => { 
   return [...Array(props.nbPages).keys()].map((val, i) => {
     const pageNr = i + 1
+
     const newState = { ...props.searchState, page: pageNr }
     delete newState.menu
 
@@ -51,12 +52,13 @@ export const Items = connectHits(MyHits)
 
 
 
-const MyRefinementList = ({ items, refine }) => {
+const MyRefinementList = ({ items, refine, attributeName }) => {
   return items.map((val, i) => {
     return (
       <div key={i}>
-        <label>{val.label}</label>
+        <label htmlFor={`${i}-${attributeName}`}>{val.label}</label>
         <input
+          id={`${i}-${attributeName}`}
           type="checkbox"
           checked={val.isRefined}
           onChange={() => { refine(val.value) }}

@@ -3,11 +3,12 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { fetchProducts } from '../actions/products'
 import Products from '../components/ProductsConnector/Products'
+import { urlDecode } from '../urlHelper'
 
 class ProductPage extends Component {
   static fetchData(req, params) {
     if (params && params.length >= 2) {
-      req.query.menu = { category: params[1] }
+      req.query.menu = { category: urlDecode(params[1]) }
     }
 
     return fetchProducts(req.query)

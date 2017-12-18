@@ -18,4 +18,4 @@
 * [x] Redux
 * [x] React-instantsearch
 * [x] Express.js
-* [ ] server side caching
+* [x] server side caching

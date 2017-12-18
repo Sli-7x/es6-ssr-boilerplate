@@ -21,6 +21,7 @@ import path from 'path'
 import helmet from 'helmet'
 import Loadable from 'react-loadable'
 import compression from 'compression'
+require('dotenv').config()
 
 const app = express()
 
@@ -36,8 +37,6 @@ process.on('uncaughtException', (err) => {
   console.log(err)
 })
 
-
-//@todo make work with development
 if (isDev) {
   const webpack = require('webpack')
   const webpackMiddleware = require('webpack-dev-middleware')
@@ -46,11 +45,11 @@ if (isDev) {
   app.use(webpackMiddleware(compiler, { serverSideRender: true }))
   app.use(webpackHotMiddleware(compiler))
   app.use('/', require('./handlerDev').default)
-  app.listen(PORT, () => console.log('started prot: ' + PORT))
+  app.listen(PORT, () => console.log('started port: ' + PORT))
 } else {
   app.use('/', require('./handlerProd').default)
   Loadable.preloadAll().then(() => {
-    app.listen(PORT, () => console.log('started prot: ' + PORT))
+    app.listen(PORT, () => console.log('started port: ' + PORT))
   })
 }
 
