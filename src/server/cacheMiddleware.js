@@ -26,6 +26,3 @@ router.use((req, res, next) => {
 })
 
 export const cacheMiddleware = router
-
-
-
