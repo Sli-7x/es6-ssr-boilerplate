@@ -1,4 +1,4 @@
-# ES6 boilerplate
+# ES6 SSR React boilerplate
 
 ### How to start
 * `npm i` Install dependencies
@@ -11,11 +11,13 @@
 * `npm run start` Start production
 
 ## Todo
-* [x] Server side rendering
-* [x] Code split
-* [x] css-modules
-* [x] React router v4
-* [x] Redux
-* [x] React-instantsearch
-* [x] Express.js
+* [x] server side rendering
 * [x] server side caching
+* [x] code split
+* [x] css-modules
+* [x] react router v4
+* [x] redux
+* [x] react-instantsearch
+* [x] express.js
+* [x] static folder
+* [x] status codes

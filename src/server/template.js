@@ -10,8 +10,6 @@ export default ({ content, data, bundles = [] }) => {
       <meta name="msapplication-config" content="none">
       <meta name="description" content="moebel stuff, tables, kitchen, chairs">
       <title>Algolia SSR</title>
-      
-      </style>
     </head>
     <body>
       <div id="app">${content}</div>
@@ -20,6 +18,8 @@ export default ({ content, data, bundles = [] }) => {
       <script src="/js/client.js"></script>
       ${bundles? bundles.map(bundle => bundle? `<script src="/${bundle.file}"></script>` : '').join('\n') : ''}
       ${bundles? '<script>window.main();</script>' : ''}
+      <link href="/css/global.css" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" lazyload="1"/>
     </body>
     </html>`
 }

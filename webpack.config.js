@@ -1,4 +1,5 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const webpack = require('webpack')
 const path = require('path')
 const nodeEnv = process.env.NODE_ENV || 'development'
@@ -8,6 +9,10 @@ const { ReactLoadablePlugin } = require('react-loadable/webpack')
 const plugins = () => {
   const array = [
     new webpack.optimize.OccurrenceOrderPlugin(),
+    new CopyWebpackPlugin([
+      { from: 'static/css/*', to: './css/[name].[ext]' },
+      { from: 'static/images/*', to: './images/[name].[ext]' },
+    ]),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor', // Specify the common bundle's name.
@@ -15,7 +20,7 @@ const plugins = () => {
       filename: 'js/[name].js'
     }),
     new ExtractTextPlugin({
-      filename: '[name].css',
+      filename: 'main.css',
       disable: false,
       allChunks: true,
     }),
@@ -45,9 +50,6 @@ const plugins = () => {
       filename: './dist/js/react-loadable.json',
     }))
   } else {
-    array.push(new ReactLoadablePlugin({
-      filename: './dist/js/react-loadable.json',
-    }))
     array.push(new webpack.HotModuleReplacementPlugin())
   }
 
