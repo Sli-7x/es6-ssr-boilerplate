@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import qs from 'qs'
 import { createInstantSearch } from 'react-instantsearch/server'
 import {
-  // RefinementList,
   SearchBox,
   Configure,
   CurrentRefinements
@@ -81,7 +80,7 @@ class Products extends Component {
 
   render() {
     const search = this.props && this.props.searchState ? this.props.searchState : this.state.searchState
-
+    
     return (
       <InstantSearch
         appId="latency"
@@ -93,7 +92,7 @@ class Products extends Component {
         searchState={search}
         createURL={createURL}
       >
-        <Configure hitsPerPage={12} />
+        <Configure hitsPerPage={24} />
         <div className={styles.header}>
           <h1>ES6 + React InstantSearch + Redux + SSR + Code split</h1>
           <SearchBox />
@@ -122,7 +121,7 @@ class Products extends Component {
             showLast={false} 
             showFirst={false}
             query={this.props.location ? this.props.location.search : ''}
-            perPage={12}
+            perPage={24}
           />
         </div>
       </InstantSearch>

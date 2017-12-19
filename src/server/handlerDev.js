@@ -9,15 +9,14 @@ import configureStore from '../client/configureStore'
 import routes from '../client/routes'
 import template from './template'
 import App from '../client/App'
-import { ssrCache, cacheMiddleware, getCacheKey } from './cacheMiddleware'
 
 const router = express.Router()
 const store = configureStore()
 
 
-router.get('*', cacheMiddleware, (req, res) => {
+router.get('*', (req, res) => {
   const url = req.url.split(/[?#]/)[0]
-  const context = {}
+  let context = {}
   let params = null
 
   if (req.params) {
@@ -41,7 +40,7 @@ router.get('*', cacheMiddleware, (req, res) => {
     )
     
     if (context.status === 404) {
-      return res.status(404)
+      res.status(404)
     }
 
     if (context.status === 302) {
@@ -49,8 +48,6 @@ router.get('*', cacheMiddleware, (req, res) => {
     }
 
     const html = template({ data: store.getState(), content: appHtml, bundles: null })
-
-    ssrCache.set(getCacheKey(req), html)
 
     res.send(html)
   })

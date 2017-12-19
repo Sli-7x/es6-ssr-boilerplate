@@ -10,7 +10,7 @@ class ProductPage extends Component {
     if (params && params.length >= 2) {
       req.query.menu = { category: urlDecode(params[1]) }
     }
-
+    
     return fetchProducts(req.query)
   }
 

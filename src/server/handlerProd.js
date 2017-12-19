@@ -22,7 +22,6 @@ const store = configureStore()
 router.get('*', cacheMiddleware, (req, res) => {
   const url = req.url.split(/[?#]/)[0]
   let modules = []
-  const context = {}  
   let params = null
 
   if (req.params) {
@@ -37,6 +36,8 @@ router.get('*', cacheMiddleware, (req, res) => {
   }, [])
 
   return Promise.all(promises).then(() => {
+    let context = {}  
+
     const appHtml = renderToString(
       <Loadable.Capture report={moduleName => modules.push(moduleName)}>
         <Provider store={store}>
@@ -49,15 +50,18 @@ router.get('*', cacheMiddleware, (req, res) => {
 
     let bundles = getBundles(stats, modules)
     if (context.status === 404) {
-      return res.status(404)
+      res.status(404)
     }
 
-    if (context.status === 302) {
-      return res.redirect(302, context.url)
+    if (context.status === 301  || context.status === 302) {
+      return res.redirect(context.status, context.url)
     }
 
     const html = template({ data: store.getState(), content: appHtml, bundles })
-    ssrCache.set(getCacheKey(req), html)
+
+    if (context.status !== 404) {
+      ssrCache.set(getCacheKey(req), html)
+    }
 
     res.send(html)
   })
