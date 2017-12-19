@@ -11,7 +11,8 @@ const routes = [
     component: Route.ProductPage
   },
   {
-    path: '/about',
+    path: '/about-us',
+    exact: true,
     component: Route.About
   }
 ]

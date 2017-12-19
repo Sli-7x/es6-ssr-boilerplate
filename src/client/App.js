@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import { Route, Switch } from 'react-router-dom'
-// import routes from './routes'
-
+import Error404 from './components/Errors/Error404'
+import RedirectWithStatus from './components/Errors/RedirectWithStatus'
 import Loadable from 'react-loadable'
 
 function Loading(props) {
@@ -42,24 +42,19 @@ class App extends Component {
         <main className="content">
           <Switch>
             <Route exact path="/" component={List}/>
-            <Route exact path="/About" component={About}/>
+            <RedirectWithStatus
+              status={302}
+              from="/about"
+              to="/about-us"
+            />
+            <Route exact path="/about-us" component={About}/>
             <Route path="/product/:category?" component={ProductPage}/>
+            <Route status={404} component={Error404}/>           
           </Switch>
         </main>
         <Footer />
       </div>
     )
-    /*return (
-      <div>
-        <Header />
-        <main className="content">
-          <Switch>
-            {routes.map((route, i) => <Route key={i} {...route} />)}
-          </Switch>
-        </main>
-        <Footer />
-      </div>
-    )*/
   }
 }
 
