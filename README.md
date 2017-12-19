@@ -7,7 +7,7 @@
 * `npm run dev` Start development
 
 ##### production
-* `npm run build:all` Build for production
+* `npm run build` Build for production
 * `npm run start` Start production
 
 ## Todo
