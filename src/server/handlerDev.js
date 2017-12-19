@@ -1,5 +1,6 @@
 import express from 'express'
 import React from 'react'
+import { Helmet } from 'react-helmet'
 import { renderToString } from 'react-dom/server'
 import { StaticRouter, matchPath } from 'react-router-dom'
 import { Provider } from 'react-redux'
@@ -47,7 +48,9 @@ router.get('*', (req, res) => {
       return res.redirect(302, context.url)
     }
 
-    const html = template({ data: store.getState(), content: appHtml, bundles: null })
+    const helmet = Helmet.renderStatic()
+
+    const html = template({ data: store.getState(), content: appHtml, bundles: null, helmet })
 
     res.send(html)
   })

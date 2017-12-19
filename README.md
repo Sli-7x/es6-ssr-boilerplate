@@ -21,3 +21,4 @@
 * [x] express.js
 * [x] static folder
 * [x] status codes
+* [x] react-helmet

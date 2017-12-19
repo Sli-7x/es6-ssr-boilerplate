@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Helmet } from 'react-helmet'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { fetchProducts } from '../actions/products'
@@ -10,7 +11,7 @@ class ProductPage extends Component {
     if (params && params.length >= 2) {
       req.query.menu = { category: urlDecode(params[1]) }
     }
-    
+
     return fetchProducts(req.query)
   }
 
@@ -19,6 +20,9 @@ class ProductPage extends Component {
 
     return (
       <div>
+        <Helmet>
+          <title>ES6 react ssr | Products</title>
+        </Helmet>
         <Products
           resultsState={products}
           location={this.props.location}

@@ -10,18 +10,18 @@ const preloadedState = window.__INITIAL_STATE__
 delete window.__INITIAL_STATE__
 const store = configureStore(preloadedState)
 
+const renderApp = (Comp) => {
+  return hydrate(
+    <Provider store={store}>
+      <BrowserRouter>
+        <Comp />
+      </BrowserRouter>
+    </Provider>,
+    document.getElementById('app')
+  )
+}
+
 if (module.hot) {
-  const renderApp = (Comp) => {
-    return hydrate(
-      <Provider store={store}>
-        <BrowserRouter>
-          <Comp />
-        </BrowserRouter>
-      </Provider>,
-      document.getElementById('app')
-    )
-  }
-  
   renderApp(App)
   
   module.hot.accept('./App', () => {
@@ -31,14 +31,7 @@ if (module.hot) {
 } else {
   window.main = () => {
     Loadable.preloadReady().then(() => {
-      hydrate(
-        <Provider store={store}>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </Provider>,
-        document.getElementById('app')
-      )
+      renderApp(App)
     })
   }
 }

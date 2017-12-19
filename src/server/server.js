@@ -1,5 +1,3 @@
-// import { createServer } from 'http'
-// import 'ignore-styles'
 require('dotenv').config()
 require('babel-core/register')({
   presets: ['latest', 'react']
@@ -7,7 +5,7 @@ require('babel-core/register')({
 const PORT = process.env.PORT || 3000
 const isDev = process.env.NODE_ENV === 'serverDev'
 
-// @todo make work with development
+// for development
 if (isDev) {
   require('babel-core').transform('code', {
     plugins: [

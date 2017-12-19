@@ -1,6 +1,6 @@
 const serialize = require('serialize-javascript')
 
-export default ({ content, data, bundles = [] }) => {
+export default ({ content, data, bundles = [], helmet }) => {
   return `<!doctype html>
     <html lang="en">
     <head>
@@ -8,10 +8,10 @@ export default ({ content, data, bundles = [] }) => {
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="msapplication-config" content="none">
-      <meta name="description" content="moebel stuff, tables, kitchen, chairs">
-      <title>Algolia SSR</title>
+      ${helmet.title.toString()}
+      ${helmet.meta.toString()}
     </head>
-    <body>
+    <body ${helmet.bodyAttributes.toString()}>
       <div id="app">${content}</div>
       <script>window.__INITIAL_STATE__ = ${serialize(data, { isJSON: true })}</script>
       <script src="/js/vendor.js"></script>
