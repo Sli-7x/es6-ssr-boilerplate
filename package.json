@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "rimraf dist/js && export NODE_ENV=serverDev&& export BABEL_ENV=server&& nodemon ./src/server/server.js --exec babel-node --presets latest",
-    "build:client": "export NODE_ENV=production&& rimraf dist && mkdir dist && webpack --config webpack.config.js",
+    "dev": "npm run prebuild && webpack --config webpack.config.js && export NODE_ENV=serverDev&& export BABEL_ENV=server&& nodemon ./src/server/server.js --exec babel-node --presets latest",
+    "prebuild": "rimraf dist && mkdir dist", 
+    "build:client": "export NODE_ENV=production&& npm run prebuild && webpack --config webpack.config.js",
     "build": "npm run build:client && npm run build:server",
     "build:server": "export NODE_ENV=production&& export BABEL_ENV=server&& rimraf server.min.js && webpack --config webpack.server.js",
     "start": "export NODE_ENV=production&& node server.min.js"
