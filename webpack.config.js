@@ -72,7 +72,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     chunkFilename: 'js/[name]-[chunkhash].js',
     filename: 'js/[name].js',
-    publicPath: 'http://localhost:3001/'
+    publicPath: '/'
   },
   
   module: {
