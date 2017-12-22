@@ -1,18 +1,17 @@
 import React, { Component } from 'react'
 import { Helmet } from 'react-helmet'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { fetchProducts } from '../actions/products'
 import Products from '../components/ProductsConnector/Products'
 import { urlDecode } from '../urlHelper'
 
 class ProductPage extends Component {
-  static fetchData(req, params) {
+  static fetchData({ req, params, store }) {
     if (params && params.length >= 2) {
       req.query.menu = { category: urlDecode(params[1]) }
     }
 
-    return fetchProducts(req.query)
+    return store.dispatch(fetchProducts(req.query))
   }
 
   render() {
@@ -35,6 +34,5 @@ class ProductPage extends Component {
 }
 
 const mapStateToProps = (state) => ({ products: state.products.items })
-const mapDispatchToProps = (dispatch) => bindActionCreators({ fetchProducts }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductPage)
+export default connect(mapStateToProps)(ProductPage)

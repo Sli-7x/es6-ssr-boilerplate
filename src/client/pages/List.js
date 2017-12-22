@@ -1,16 +1,15 @@
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { fetchFilters } from '../actions/filters'
 
 class List extends Component {
-  static fetchData() {
-    return fetchFilters()
+  static fetchData({ store }) {
+    return store.dispatch(fetchFilters())
   }
 
   componentDidMount() {
     if (!this.props.filters || this.props.filters.length === 0) {
-      this.props.fetchFilters()
+      this.props.dispatch(fetchFilters())
     }
   }
 
@@ -35,7 +34,5 @@ class List extends Component {
 }
 
 const mapStateToProps = (state) => ({ filters: state.filters.filters })
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ fetchFilters }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(List)
+export default connect(mapStateToProps)(List)

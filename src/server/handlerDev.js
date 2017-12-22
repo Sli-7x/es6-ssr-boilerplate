@@ -4,19 +4,16 @@ import { Helmet } from 'react-helmet'
 import { renderToString } from 'react-dom/server'
 import { StaticRouter, matchPath } from 'react-router-dom'
 import { Provider } from 'react-redux'
-
 import configureStore from '../client/configureStore'
-
 import routes from '../client/routes'
 import template from './template'
 import App from '../client/App'
 
 const router = express.Router()
-const store = configureStore()
 
-
-router.get('*', (req, res) => {
+router.get('*', async (req, res) => {
   const url = req.url.split(/[?#]/)[0]
+  const store = configureStore()
   let context = {}
   let params = null
 
@@ -24,10 +21,15 @@ router.get('*', (req, res) => {
     params = req.params[0].slice(1).split('/')
   }
 
-  const promises = routes.reduce((acc, route) => {
-    if (matchPath(url, route) && route.component && route.component.fetchData) {
-      acc.push(Promise.resolve(store.dispatch(route.component.fetchData(req, params))))
+  const promises = await routes.reduce((acc, route) => {
+    if (matchPath(url, route) && route.component) {
+      route.component.preload().then((data) => {
+        if (data.default.fetchData) {
+          return acc.push(Promise.resolve(data.default.fetchData({ store, req, params })))
+        }
+      })
     }
+
     return acc
   }, [])
 
