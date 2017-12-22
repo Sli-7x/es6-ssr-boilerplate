@@ -27,8 +27,12 @@ app.use(compression())
 app.use(helmet())
 app.use(cookieParser())
 
-const basePath = isDev ? path.join(__dirname, '..', '..', 'dist') : path.join(__dirname, 'dist')
-app.use(express.static(basePath))
+// const basePath = isDev ? path.join(__dirname, '..', '..', 'dist') : path.join(__dirname, 'dist')
+// app.use(express.static(basePath))
+
+
+app.use('/js', express.static(path.join('dist', 'js'), { redirect: false }))
+app.use('/css', express.static(path.join('dist', 'css'), { redirect: false }))
 
 
 process.on('uncaughtException', (err) => {
@@ -37,10 +41,16 @@ process.on('uncaughtException', (err) => {
 
 if (isDev) {
   const webpack = require('webpack')
-  const webpackMiddleware = require('webpack-dev-middleware')
+  const webpackDevMiddleware = require('webpack-dev-middleware')
   const webpackHotMiddleware = require('webpack-hot-middleware')
   const compiler = webpack(require('../../webpack.config.js'))
-  app.use(webpackMiddleware(compiler, { serverSideRender: true }))
+  const options = {
+    serverSideRender: true,
+    stats: {
+      colors: true
+    } 
+  }
+  app.use(webpackDevMiddleware(compiler, options))
   app.use(webpackHotMiddleware(compiler))
   app.use('/', require('./handlerDev').default)
   app.listen(PORT, () => console.log('started port: ' + PORT))

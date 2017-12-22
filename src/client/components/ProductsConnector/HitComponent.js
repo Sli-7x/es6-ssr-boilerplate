@@ -1,4 +1,5 @@
 import React from 'react'
+import LazyLoad from 'react-lazyload'
 import styles from './productsStyles.css'
 
 export const HitComponent = ({ hit }) => {
@@ -6,7 +7,9 @@ export const HitComponent = ({ hit }) => {
     <div className={styles.item}>
       <div className={styles.itemPicture}>
         <div className={styles.itemPictureWrapper}>
-          <img src="/images/loading.gif" data-src={`${hit.image}`} alt={hit.name}/>
+          <LazyLoad height={200} offset={100}>
+            <img src={`${hit.image}`} alt={hit.name} />
+          </LazyLoad>
         </div>
       </div>
       <div className={styles.hitContent}>

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "npm run prebuild && webpack --config webpack.config.js && export NODE_ENV=serverDev&& export BABEL_ENV=server&& nodemon ./src/server/server.js --exec babel-node --presets latest",
-    "prebuild": "rimraf dist && mkdir dist", 
+    "prebuild": "rimraf dist && mkdir dist",
     "build:client": "export NODE_ENV=production&& npm run prebuild && webpack --config webpack.config.js",
     "build": "npm run build:client && npm run build:server",
     "build:server": "export NODE_ENV=production&& export BABEL_ENV=server&& rimraf server.min.js && webpack --config webpack.server.js",
@@ -19,6 +19,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-instantsearch": "^4.2.0",
+    "react-lazyload": "^2.3.0",
     "react-redux": "5.0.6",
     "react-router": "^4.2.0",
     "react-router-config": "1.0.0-beta.4",

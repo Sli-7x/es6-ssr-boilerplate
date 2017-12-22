@@ -20,9 +20,10 @@ const plugins = () => {
       filename: 'js/[name].js'
     }),
     new ExtractTextPlugin({
-      filename: 'main.css',
+      filename: 'css/main.css',
       disable: false,
       allChunks: true,
+      ignoreOrder: true
     }),
   ]
 
@@ -68,12 +69,12 @@ module.exports = {
   },
 
   output: {
-    path: path.resolve(__dirname, './dist/'),
+    path: path.resolve(__dirname, 'dist'),
     chunkFilename: 'js/[name]-[chunkhash].js',
     filename: 'js/[name].js',
-    publicPath: '/'
+    publicPath: 'http://localhost:3001/'
   },
-
+  
   module: {
     rules: [
       {
@@ -81,13 +82,21 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader'
       },
+      // {
+      //   test: /\.css$/,
+      //   exclude: /node_modules/,
+      //   use: [
+      //     'style-loader',
+      //     'css-loader?modules&localIdentName=[name]__[local]___[hash:base64:5]'
+      //   ]
+      // },
       {
         test: /\.css$/,
         exclude: /node_modules/,
-        use: [
-          'style-loader',
-          'css-loader?modules&localIdentName=[name]__[local]___[hash:base64:5]'
-        ]
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader?modules&localIdentName=[name]__[local]___[hash:base64:5]'
+        })
       },
       {
         test: /\.(png|jpg)$/,

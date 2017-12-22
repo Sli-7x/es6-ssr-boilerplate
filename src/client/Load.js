@@ -1,4 +1,5 @@
 import Loadable from 'react-loadable'
+import React from 'react'
 
 export const ProductPage = Loadable({
   loader: () => import('./pages/ProductPage'),

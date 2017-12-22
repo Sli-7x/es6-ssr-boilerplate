@@ -6,6 +6,7 @@ npm-debug.log
 /server
 /node_modules
 server.min.js
+now.json
 
 # Local development
 *.env

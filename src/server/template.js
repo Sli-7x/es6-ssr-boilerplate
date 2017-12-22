@@ -10,6 +10,7 @@ export default ({ content, data, bundles = [], helmet }) => {
       <meta name="msapplication-config" content="none">
       ${helmet.title.toString()}
       ${helmet.meta.toString()}
+      <link href="/css/main.css" rel="stylesheet" />
     </head>
     <body ${helmet.bodyAttributes.toString()}>
       <div id="app">${content}</div>
@@ -18,8 +19,8 @@ export default ({ content, data, bundles = [], helmet }) => {
       <script src="/js/client.js"></script>
       ${bundles? bundles.map(bundle => bundle? `<script src="/${bundle.file}"></script>` : '').join('\n') : ''}
       ${bundles? '<script>window.main();</script>' : ''}
+      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
       <link href="/css/global.css" rel="stylesheet" />
-      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" lazyload="1"/>
     </body>
     </html>`
 }

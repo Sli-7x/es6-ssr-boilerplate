@@ -9,7 +9,6 @@ import {
 import styles from './productsStyles.css'
 import { urlDecode, urlEncode } from '../../urlHelper'
 import { Pagination, Menu, Items, RefinementList } from './Connectors'
-
 const { InstantSearch, findResultsState } = createInstantSearch()
 
 
@@ -43,34 +42,15 @@ class Products extends Component {
       searchState: props.location ? urlToSearchState(props.location, props) : props.searchState
     }
   }
-
-  lazyLoad() {
-    setTimeout(() => {
-      const allimages = document.getElementsByTagName('img')
-      for (const val in allimages) {
-        if (!isNaN(parseInt(val, 10)) && allimages[val] && allimages[val].getAttribute('data-src')) {
-          const src = allimages[val].getAttribute('data-src')
-          if (val && allimages[val]) {
-            allimages[val].setAttribute('src', src)
-          }
-        }
-      }
-    }, 300)
-  }
-
-  componentDidMount() {
-    this.lazyLoad()
-  }
-
+  
   componentWillReceiveProps(nextProps) {
     if (nextProps.location !== this.props.location) {
-      this.setState({ searchState: urlToSearchState(nextProps.location, nextProps) }, this.lazyLoad)
+      this.setState({ searchState: urlToSearchState(nextProps.location, nextProps) })
     }
   }
 
   onSearchStateChange(searchState) {
     this.props.history.push(createURL(searchState))
-    this.lazyLoad()
     if (this.props.match.params.category) {
       searchState.menu = { category: this.props.match.params.category }
     }

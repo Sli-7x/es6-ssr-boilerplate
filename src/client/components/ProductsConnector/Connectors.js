@@ -42,7 +42,6 @@ const MyMenu = (props) => {
     </div>
   ))
 }
-
 export const Menu = connectMenu(MyMenu)
 
 
