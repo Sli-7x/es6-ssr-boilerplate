@@ -5,13 +5,14 @@ const path = require('path')
 const nodeEnv = process.env.NODE_ENV || 'development'
 const isProd = nodeEnv == 'production'
 const { ReactLoadablePlugin } = require('react-loadable/webpack')
+const distPath = path.join(__dirname, 'dist')
 
 const plugins = () => {
   const array = [
     new webpack.optimize.OccurrenceOrderPlugin(),
     new CopyWebpackPlugin([
-      { from: 'static/css/*', to: './css/[name].[ext]' },
-      { from: 'static/images/*', to: './images/[name].[ext]' },
+      { from: 'static/css/*', to: `${distPath}/css/[name].[ext]` },
+      { from: 'static/images/*', to: `${distPath}/images/[name].[ext]` },
     ]),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.CommonsChunkPlugin({

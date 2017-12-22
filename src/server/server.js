@@ -27,14 +27,6 @@ app.use(compression())
 app.use(helmet())
 app.use(cookieParser())
 
-// const basePath = isDev ? path.join(__dirname, '..', '..', 'dist') : path.join(__dirname, 'dist')
-// app.use(express.static(basePath))
-
-
-app.use('/js', express.static(path.join('dist', 'js'), { redirect: false }))
-app.use('/css', express.static(path.join('dist', 'css'), { redirect: false }))
-
-
 process.on('uncaughtException', (err) => {
   console.log(err)
 })
@@ -55,6 +47,8 @@ if (isDev) {
   app.use('/', require('./handlerDev').default)
   app.listen(PORT, () => console.log('started port: ' + PORT))
 } else {
+  app.use('/js', express.static(path.join('dist', 'js'), { redirect: false }))
+  app.use('/css', express.static(path.join('dist', 'css'), { redirect: false }))
   app.use('/', require('./handlerProd').default)
   Loadable.preloadAll().then(() => {
     app.listen(PORT, () => console.log('started port: ' + PORT))
